@@ -1,11 +1,21 @@
 #include <Arduino.h>
 
 #include "hidclass.h"
+#include "button.h"
 
 USBHID HID;
 HIDMultitouch USBMultitouch(HID);
 
-void setup(){
+const uint16_t MAX_X = 1440;
+const uint16_t MAX_Y = 2960;
+
+Button attack_b;
+Button skill_b;
+Button jump_b;
+Button dash_b;
+
+void setup()
+{
     HID.setReportDescriptor(MultitouchReportDescriptor, sizeof(MultitouchReportDescriptor));
     HID.registerComponent();
 
@@ -13,66 +23,27 @@ void setup(){
     while(!USBComposite);
 
     delay(300);
-    
     /*
-    static const uint8_t n = 30;
-
-    for (uint8_t i = 1; i < n; ++i)
-    {
-        for (uint8_t j = 1; j < n; ++j)
-        {
-            USBMultitouch.move(1440 * i / n, 2960 * j / n);
-            USBMultitouch.click();
-
-            delay(100);
-        }
-    }
+    attack_b.init(MAX_X * 0.23, MAX_Y * 0.80, 1, &USBMultitouch);
+    skill_b.init (MAX_X * 0.14, MAX_Y * 0.72, 2, &USBMultitouch);
+    jump_b.init  (MAX_X * 0.35, MAX_Y * 0.88, 3, &USBMultitouch);
+    dash_b.init  (MAX_X * 0.14, MAX_Y * 0.88, 4, &USBMultitouch);
     */
+    attack_b.init(MAX_X * 0.77, MAX_Y * 0.20, 1, &USBMultitouch);
+    skill_b.init (MAX_X * 0.86, MAX_Y * 0.28, 2, &USBMultitouch);
+    jump_b.init  (MAX_X * 0.65, MAX_Y * 0.12, 3, &USBMultitouch);
+    dash_b.init  (MAX_X * 0.86, MAX_Y * 0.12, 4, &USBMultitouch);
 
-    /*
-    USBMultitouch.move(100, 100, 0);
-    USBMultitouch.move(600, 300, 1);
-    USBMultitouch.press(1);
-    USBMultitouch.press(0);
-
-    delay(300);
-
-    USBMultitouch.move(100, 200, 0);
-    USBMultitouch.move(600, 200, 1);
-    
-    delay(300);
-
-    USBMultitouch.move(100, 300, 0);
-    USBMultitouch.move(600, 100, 1);
-
-    USBMultitouch.release(0);
-    USBMultitouch.release(1);
-    */
-
-    USBMultitouch.move(1440 * 0.1, 2960 * 0.3, 0);
-    USBMultitouch.move(1440 * 0.1, 2960 * 0.7, 1);
-
-    USBMultitouch.press(0);
-    USBMultitouch.press(1);
-
-    delay(100);
-
-    static const uint8_t n = 10;
-    
-    for (uint8_t i = 2; i < n; ++i)
-    {
-        USBMultitouch.move(1440 * i / n, 2960 * 0.3, 0);
-        USBMultitouch.move(1440 * i / n, 2960 * 0.7, 1);
-
-        delay(100);
-    }
-
-    USBMultitouch.release(0);
-    USBMultitouch.release(1);
-
+    pinMode(PA1, INPUT_PULLDOWN);
+    pinMode(PA2, INPUT_PULLDOWN);
+    pinMode(PA3, INPUT_PULLDOWN);
+    pinMode(PA4, INPUT_PULLDOWN);
 }
 
-void loop(){
-    
-    
+void loop()
+{
+    attack_b.toggle(digitalRead(PA1));
+    skill_b.toggle(digitalRead(PA2));
+    jump_b.toggle(digitalRead(PA3));
+    dash_b.toggle(digitalRead(PA4));
 }

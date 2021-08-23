@@ -6,7 +6,11 @@ Sends multitouch events to controll onscreen buttons, move joystick and camera
 
 Implemented:
 * USB HID device
-* basic input events for testing
+* Touch events for Genshin Impact
 
 Todo:
-* the rest
+* Simultaneous work with phone's touch screens
+
+Credits:
+
+https://github.com/katyo/hid_def

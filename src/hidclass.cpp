@@ -22,12 +22,10 @@ void HIDMultitouch::move(uint16 x, uint16 y, uint8_t f)
 
 void HIDMultitouch::buttons(uint8_t f, uint8_t b)
 {
-	if (b != report.buttons)
-	{
-        report.buttons = b;
-        report.finger = f;
-        sendReport();
-	}
+    report.buttons = b;
+    report.finger = f;
+    
+    sendReport();
 }
 
 void HIDMultitouch::click(uint8_t f, uint8_t b)
@@ -44,4 +42,24 @@ void HIDMultitouch::press(uint8_t f, uint8_t b)
 void HIDMultitouch::release(uint8_t f, uint8_t b)
 {
 	buttons(f, report.buttons & ~b);
+}
+
+void HIDMultitouch::click(uint16_t x, uint16_t y, uint8_t f, uint8_t b)
+{
+    press(x, y, f, b);
+    release(x, y, f, b);
+}
+
+void HIDMultitouch::press(uint16_t x, uint16_t y, uint8_t f, uint8_t b)
+{
+    report.x = x;
+    report.y = y;
+    buttons(f, report.buttons | b);
+}
+
+void HIDMultitouch::release(uint16_t x, uint16_t y, uint8_t f, uint8_t b)
+{
+    report.x = x;
+    report.y = y;
+    buttons(f, report.buttons & ~b);
 }

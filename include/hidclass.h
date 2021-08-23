@@ -30,8 +30,14 @@ class HIDMultitouch : public HIDReporter
     HIDMultitouch(USBHID& HID, uint8_t reportID = HID_DIGITIZER_REPORT_ID);
 
     void move(uint16_t x, uint16_t y, uint8_t f = 0);
+
 	void click(uint8_t f = 0, uint8_t b = DIGITIZER_TOUCH_IN_RANGE);
 	void press(uint8_t f = 0, uint8_t b = DIGITIZER_TOUCH_IN_RANGE);
 	void release(uint8_t f = 0, uint8_t b = DIGITIZER_TOUCH_IN_RANGE);
+
+    void click(uint16_t x, uint16_t y, uint8_t f = 0, uint8_t b = DIGITIZER_TOUCH_IN_RANGE);
+	void press(uint16_t x, uint16_t y, uint8_t f = 0, uint8_t b = DIGITIZER_TOUCH_IN_RANGE);
+	void release(uint16_t x, uint16_t y, uint8_t f = 0, uint8_t b = DIGITIZER_TOUCH_IN_RANGE);
+
 	bool isPressed(uint8_t f = 0, uint8_t b = DIGITIZER_TOUCH_IN_RANGE);
 };
